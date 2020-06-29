@@ -5,7 +5,7 @@ import subprocess
 import time
  
  
-def executeSvnCmd(cmds,showInfo=True):
+def executeSvnCmd(cmds,showInfo=False):
     if showInfo:
         print(cmds)
     p = subprocess.Popen(cmds, stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
