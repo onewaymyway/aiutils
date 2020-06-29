@@ -2,8 +2,7 @@
 #coding:utf-8
 
 import json
-import numpy as np
-import os
+
 
 def readFile(filepath):
     f=open(filepath,"r",encoding='utf-8')
