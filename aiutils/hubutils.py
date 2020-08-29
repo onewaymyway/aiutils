@@ -6,7 +6,7 @@ import paddle.fluid as fluid
 from paddlehub.common.paddle_helper import add_vars_prefix, connect_program
 from paddlehub.finetune import checkpoint_pb2
 import os
-
+import shutil
 
 
 def getCheckPointInfo(checkpoint_dir):
@@ -16,6 +16,20 @@ def getCheckPointInfo(checkpoint_dir):
         with open(ckpt_meta_path, "rb") as f:
             ckpt.ParseFromString(f.read())
     print(ckpt)
+    return ckpt
+
+def rewriteCheckPoint(checkpoint_dir,newScore):
+    ckpt_meta_path = os.path.join(checkpoint_dir, "ckpt.meta")
+
+    shutil.copy(ckpt_meta_path, shutil.replace(".meta", ".mete.temp"))
+    ckpt = checkpoint_pb2.CheckPoint()
+    if os.path.exists(ckpt_meta_path):
+        with open(ckpt_meta_path, "rb") as f:
+            ckpt.ParseFromString(f.read())
+    print(ckpt)
+    ckpt.best_score = newScore
+    with open(ckpt_meta_path, "wb") as f:
+        f.write(ckpt.SerializeToString())
     return ckpt
 
 def createMultiInputs(moduleName,inputSigns,isPooled=True,max_seq_len=128):
