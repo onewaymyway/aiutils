@@ -3,9 +3,16 @@
 
 import json
 import os
+import shutil
+
+def copy(file_path,new_path):
+    shutil.copy(file_path, new_path)
 
 def isExist(fPath):
     return os.path.exists(fPath)
+
+def file_extension(path):
+  return os.path.splitext(path)[1].replace(".","")
 
 def removeFile(fPath):
     if not isExist(fPath):
@@ -77,3 +84,27 @@ def readJsonLines(filepath):
         dd=json.loads(line)
         linefiles.append(dd)
     return linefiles
+
+def readLines(dataFile):
+    txt=readFile(dataFile)
+    lines=txt.split("\n")
+    rst=[]
+    for line in lines:
+        if not line:
+            continue
+        rst.append(line)
+    return rst
+
+
+def sampleFileLines(dataFile,savePath,rate=0.1,hasHead=False):
+    lines=readLines(dataFile)
+    if hasHead:
+        title=lines[0]
+        lines=lines[1:]
+    random.shuffle(lines)
+    count=math.floor(len(lines)*rate)
+    sampled= lines[0:count]
+    if hasHead:
+        sampled=[title]+sampled
+    saveFile(savePath,"\n".join(sampled))
+
