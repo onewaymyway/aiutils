@@ -96,13 +96,18 @@ def readLines(dataFile):
     return rst
 
 
-def sampleFileLines(dataFile,savePath,rate=0.1,hasHead=False):
+def sampleFileLines(dataFile,savePath,rate=0.1,hasHead=False,useRandom=True,count=-1):
     lines=readLines(dataFile)
     if hasHead:
         title=lines[0]
         lines=lines[1:]
-    random.shuffle(lines)
-    count=math.floor(len(lines)*rate)
+
+    if useRandom:
+        random.shuffle(lines)
+
+    if count<1:
+        count = math.floor(len(lines) * rate)
+
     sampled= lines[0:count]
     if hasHead:
         sampled=[title]+sampled
