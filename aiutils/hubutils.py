@@ -18,6 +18,14 @@ def getCheckPointInfo(checkpoint_dir):
     print(ckpt)
     return ckpt
 
+def getAllCheckPointInfo(folder):
+    files=os.listdir(folder)
+    print(files)
+    rst=[]
+    for model in files:
+        rst.append(getCheckPointInfo("./models/"+model))
+    return rst
+
 def rewriteCheckPoint(checkpoint_dir,newScore):
     ckpt_meta_path = os.path.join(checkpoint_dir, "ckpt.meta")
 
