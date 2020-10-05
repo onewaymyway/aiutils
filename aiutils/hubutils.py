@@ -29,7 +29,7 @@ def getAllCheckPointInfo(folder):
 def rewriteCheckPoint(checkpoint_dir,newScore):
     ckpt_meta_path = os.path.join(checkpoint_dir, "ckpt.meta")
 
-    shutil.copy(ckpt_meta_path, shutil.replace(".meta", ".mete.temp"))
+    shutil.copy(ckpt_meta_path, ckpt_meta_path.replace(".meta", ".mete.temp"))
     ckpt = checkpoint_pb2.CheckPoint()
     if os.path.exists(ckpt_meta_path):
         with open(ckpt_meta_path, "rb") as f:
