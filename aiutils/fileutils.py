@@ -19,6 +19,8 @@ def remove_pre_checkpoints(model_path):
         if tfile.find("step_") >= 0:
             steps.append([tfile, int(tfile.replace("step_", ""))])
     steps.sort(key=lambda x: x[1])
+    if len(steps)<1:
+        return
     steps.pop()
     for step in steps:
         print("del", step[0])
