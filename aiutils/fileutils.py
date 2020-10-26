@@ -5,11 +5,30 @@ import json
 import os
 import shutil
 
+
+def remove_folder(path):
+    shutil.rmtree(path)
+
+
+def remove_pre_checkpoints(model_path):
+    # print("model_path",model_path)
+    files = os.listdir(model_path)
+    # print(files)
+    steps = []
+    for tfile in files:
+        if tfile.find("step_") >= 0:
+            steps.append([tfile, int(tfile.replace("step_", ""))])
+    steps.sort(key=lambda x: x[1])
+    steps.pop()
+    for step in steps:
+        print("del", step[0])
+        remove_folder(model_path + "/" + step[0])
+
 def ensure_dir(dir_path):
     if isExist(dir_path):
         return
     os.makedirs(dir_path)
-    
+
 def copy(file_path,new_path):
     shutil.copy(file_path, new_path)
 
