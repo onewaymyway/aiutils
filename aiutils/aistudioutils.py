@@ -3,7 +3,18 @@
 
 import requests
 import json
+import os
 
+'''
+使用方式
+aiBridge=AIStudioBridge()
+notebookPath="项目地址.ipynb"
+cookieStr="项目cookie"
+aiBridge.setConfig(notebookPath,cookieStr)
+aiBridge.getFile("baseline/abb.txt")
+aiBridge.addFile("baseline/uu.txt","abc\nuuk")
+aiBridge.listFolder("baseline")
+'''
 class AIStudioBridge():
 
     def __init__(self):
@@ -66,3 +77,40 @@ class AIStudioBridge():
         return dataO
 
 
+
+'''
+使用方式
+aistudio=AIStudioFileUtils()
+aistudio.set_project("目标项目地址.ipynb")
+aistudio.cookie="目标项目的cookie"
+#aistudio.download("baseline/mb.zip","hihi.zip")
+aistudio.download("baseline/predrst.json")
+'''
+class AIStudioFileUtils:
+
+    def __init__(self):
+        self.headers = {}
+        self.cookie = ""
+        self.project = ""
+        self.refer = ""
+
+    def set_project(self, project):
+        self.refer = project
+        project = project.split("/notebooks/")[0]
+        self.project = project
+
+    def download(self, file_path, tar=None):
+        url = self.project + "/files/" + file_path
+        headers = {
+            "Cookie": self.cookie,
+            "Host": "aistudio.baidu.com",
+            "Referer": self.refer,
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36",
+        }
+
+        res = requests.get(url, headers=headers)
+        save_path = file_path
+        if tar:
+            save_path = tar
+        with open(save_path, 'wb') as f:
+            f.write(res.content)
