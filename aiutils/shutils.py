@@ -3,6 +3,23 @@
 import os
 import subprocess
 
+import time
+
+
+class TimeClock():
+
+    def __init__(self):
+        self.start = 0
+        self.dtime = 60 * 60
+
+    def isDown(self):
+        curtime = time.time()
+        return curtime > self.start + self.dtime
+
+    def startTime(self, dtime=3600):
+        self.start = time.time()
+        self.dtime = dtime
+
 def executeSh(sh):
     print("sh:",sh)
     v=os.popen(sh)
