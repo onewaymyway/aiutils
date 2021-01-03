@@ -6,6 +6,16 @@ import os
 import shutil
 import random
 import math
+import hashlib
+
+
+def get_file_md5(file_path):
+    with open(file_path, "rb") as fp:
+        md5obj = hashlib.md5()
+        md5obj.update(fp.read())
+        file_md5 = md5obj.hexdigest()
+        # print(file_md5)
+        return file_md5
 
 
 def remove_folder(path):
